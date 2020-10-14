@@ -1,7 +1,7 @@
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 
 module Lib2 
-    (addX,getSum,sum1,sum2) where
+    (addX,getSum,sum1,sum2,evenLst) where
 
 addX :: Num a => a -> a
 addX x = x + 1
@@ -38,3 +38,5 @@ sum2 :: Sum Integer
 sum2 = Sum 2
 
 
+evenLst :: [Integer]
+evenLst = filter even $ [1..10] >>= (return <$> (+1))
