@@ -15,15 +15,10 @@ module Lib
         qian,
         g,
         f,
-        Parser,
-        digits,
-        runParser,
         classX,
         map'
         ,filterSplit
-        ,chars
-        ,char,
-        sci) where
+        ) where
 import Data.List ()
 import System.IO ()
 -- import qualified Data.Map as Map
@@ -189,35 +184,35 @@ f x = do
 
 
 
-newtype Parser a = Parser 
-    { runParser :: String -> (String, Maybe a)}
+-- newtype Parser a = Parser 
+--     { runParser :: String -> (String, Maybe a)}
 
-digits :: Parser Int
-digits = Parser $ \input ->
-    let r = takeWhile isDigit input
-    in if null r
-        then ([],Nothing)
-        else (drop (length r) input, Just $
-        foldl (\acc a -> acc * 10 + (fromEnum a-48)) 0 r)
-    where isDigit x = x >= '0' && x <= '9'
+-- digits :: Parser Int
+-- digits = Parser $ \input ->
+--     let r = takeWhile isDigit input
+--     in if null r
+--         then ([],Nothing)
+--         else (drop (length r) input, Just $
+--         foldl (\acc a -> acc * 10 + (fromEnum a-48)) 0 r)
+--     where isDigit x = x >= '0' && x <= '9'
 
-chars :: Parser String
-chars = Parser $ \input ->
-    let r = takeWhile isChar input
-    in if null r
-        then ([],Nothing)
-        else (drop (length r) input, Just r)
-    where isChar x = elem x ['a'..'z'] || elem x ['A'..'Z']
+-- chars :: Parser String
+-- chars = Parser $ \input ->
+--     let r = takeWhile isChar input
+--     in if null r
+--         then ([],Nothing)
+--         else (drop (length r) input, Just r)
+--     where isChar x = elem x ['a'..'z'] || elem x ['A'..'Z']
 
-char :: Char -> Parser ()
-char c = Parser $ \ input -> case input of
-    (x:xs) | x == c -> (xs,Just ())
-    _ -> (input,Nothing)
+-- char :: Char -> Parser ()
+-- char c = Parser $ \ input -> case input of
+--     (x:xs) | x == c -> (xs,Just ())
+--     _ -> (input,Nothing)
 
-instance Functor Parser where
-    fmap f (Parser p) = Parser $ \ input ->
-        let (input',ma) = p input
-        in (input',f <$> ma)
+-- instance Functor Parser where
+--     fmap f (Parser p) = Parser $ \ input ->
+--         let (input',ma) = p input
+--         in (input',f <$> ma)
 
 
 -- type WillCoId = Int
@@ -241,23 +236,23 @@ instance Functor Parser where
 -- creditsFromWCId :: WillCoId -> Maybe PlayerCredits
 -- creditsFromWCId id = lookupGamerId id >>= lookupUserName >>= lookupCredits
 
-instance Applicative Parser where
-    pure x = Parser $ \ input -> (input,Just x)
-    (<*>) pf pa = do
-        f <- pf
-        a <- pa
-        return $ f a
+-- instance Applicative Parser where
+--     pure x = Parser $ \ input -> (input,Just x)
+--     (<*>) pf pa = do
+--         f <- pf
+--         a <- pa
+--         return $ f a
 
-instance Monad Parser where
-    Parser pa >>= f = Parser $ \ input -> 
-        case pa input of
-            (input',Just a) -> runParser (f a) input'
-            (input',Nothing) -> (input',Nothing)
+-- instance Monad Parser where
+--     Parser pa >>= f = Parser $ \ input -> 
+--         case pa input of
+--             (input',Just a) -> runParser (f a) input'
+--             (input',Nothing) -> (input',Nothing)
 
 
-sci :: Parser Int
-sci = do
-    base <- digits
-    char 'e'
-    exp  <- digits
-    pure (base * 10^exp)
+-- sci :: Parser Int
+-- sci = do
+--     base <- digits
+--     char 'e'
+--     exp  <- digits
+--     pure (base * 10^exp)

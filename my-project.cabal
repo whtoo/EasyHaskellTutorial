@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: d13191b11c8163d0f1c1eefbe4dbd7ebcb9a944e96df7390a21cd7308b6dc7c2
+-- hash: b3bc7ea2679429fba72f76b892fb289b7862d2b03f0c48773adbe6d5fd5ec227
 
 name:           my-project
 version:        0.1.0.0
@@ -27,6 +27,7 @@ source-repository head
 
 library
   exposed-modules:
+      AIParser
       Lib
       Lib2
       Lib3

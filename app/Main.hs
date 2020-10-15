@@ -1,8 +1,9 @@
 module Main where
 
-import Lib ( Parser(runParser), sci)
+import Lib ()
 import Lib2 ( sum1,sum2,getSum )
 import Lib3 (students,_select,firstName,lastName,studentName)
+import AIParser
 import Prelude
 import System.Random (getStdRandom,randomR)
 import Data.List ()
@@ -166,7 +167,7 @@ sq = (\x -> x * x)
 
 main :: IO ()
 main = do 
-    putStrLn "Input your SCI expr:"
+    putStrLn "Input your expr:"
     expr <- getLine
-    putStrLn $ (show $ snd $ runParser sci expr)
+    putStrLn expr
 
