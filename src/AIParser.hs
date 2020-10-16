@@ -4,6 +4,10 @@ import Data.Char
 
 newtype Parser a = Parser { runParser :: String -> Maybe (a,String) }
 
+-- instance Functor Parser where
+--     fmap f p = Parser $ \ str -> case runParser p str of
+--         Just (a,s) -> Just (f a,s)
+--         Nothing -> Nothing
 instance Functor Parser where
     fmap f p = Parser $ \ str -> case runParser p str of
         Just (a,s) -> Just (f a,s)
@@ -22,6 +26,16 @@ instance Alternative Parser where
     (<|>) a b = Parser $ \ str -> case runParser a str of
         Nothing -> runParser b str
         Just (a1,b1) -> Just (a1,b1)
+
+instance (Semigroup a) => Semigroup (Parser a) where
+    (<>) p1 p2 = Parser $ \ str -> case runParser p1 str of
+        Nothing -> runParser p2 str
+        Just (a1,b1) -> case runParser p2 b1 of
+            Just (a2,b2) -> Just (a1<>a2,b2)
+            Nothing -> Nothing
+
+instance (Monoid a) => Monoid (Parser a) where
+    mempty = Parser $ \ str -> Just (mempty,str)
 
 satisfy :: (Char -> Bool) -> Parser Char
 satisfy f = Parser $ \ str -> case str of
