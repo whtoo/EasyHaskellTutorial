@@ -27,15 +27,15 @@ instance Alternative Parser where
         Nothing -> runParser b str
         Just (a1,b1) -> Just (a1,b1)
 
-instance (Semigroup a) => Semigroup (Parser a) where
-    (<>) p1 p2 = Parser $ \ str -> case runParser p1 str of
-        Nothing -> runParser p2 str
-        Just (a1,b1) -> case runParser p2 b1 of
-            Just (a2,b2) -> Just (a1<>a2,b2)
-            Nothing -> Nothing
+-- instance (Semigroup a) => Semigroup (Parser a) where
+--     (<>) p1 p2 = Parser $ \ str -> case runParser p1 str of
+--         Nothing -> runParser p2 str
+--         Just (a1,b1) -> case runParser p2 b1 of
+--             Just (a2,b2) -> Just (a1<>a2,b2)
+--             Nothing -> Nothing
 
-instance (Monoid a) => Monoid (Parser a) where
-    mempty = Parser $ \ str -> Just (mempty,str)
+-- instance (Monoid a) => Monoid (Parser a) where
+--     mempty = Parser $ \ str -> Just (mempty,str)
 
 satisfy :: (Char -> Bool) -> Parser Char
 satisfy f = Parser $ \ str -> case str of
