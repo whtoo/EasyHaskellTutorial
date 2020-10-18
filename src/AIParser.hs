@@ -1,4 +1,4 @@
-module AIParser (Parser(..),satisfy,char,some,many,optional,isDigit,num,parseStr) where
+module AIParser (Parser(..),satisfy,char,some,many,optional,isDigit,num,parseStr,sequ) where
 import Control.Applicative ( Alternative(empty, (<|>)) )
 import Data.Char
 

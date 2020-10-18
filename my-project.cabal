@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: b3bc7ea2679429fba72f76b892fb289b7862d2b03f0c48773adbe6d5fd5ec227
+-- hash: 73a33a7a8394385e75ce54176307c0a0cdfbf469ec83afbdac060c1b6301d498
 
 name:           my-project
 version:        0.1.0.0
@@ -31,6 +31,7 @@ library
       Lib
       Lib2
       Lib3
+      PGraphics
   other-modules:
       Paths_my_project
   hs-source-dirs:
@@ -38,7 +39,8 @@ library
   build-depends:
       base >=4.7 && <5
     , containers >=0.6
-    , optparse-applicative >=0.12 && <0.14
+    , gloss >=1.1
+    , optparse-applicative >=0.12
     , random >=1.1
   default-language: Haskell2010
 
@@ -52,8 +54,9 @@ executable my-project-exe
   build-depends:
       base >=4.7 && <5
     , containers >=0.6
+    , gloss >=1.1
     , my-project
-    , optparse-applicative >=0.12 && <0.14
+    , optparse-applicative >=0.12
     , random >=1.1
   default-language: Haskell2010
 
@@ -68,7 +71,8 @@ test-suite my-project-test
   build-depends:
       base >=4.7 && <5
     , containers >=0.6
+    , gloss >=1.1
     , my-project
-    , optparse-applicative >=0.12 && <0.14
+    , optparse-applicative >=0.12
     , random >=1.1
   default-language: Haskell2010

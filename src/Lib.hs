@@ -13,12 +13,11 @@ module Lib
         Student,
         zhao,
         qian,
-        g,
-        f,
         classX,
         map'
-        ,filterSplit
-        ) where
+        ,filterSplit,
+        Reader(..)
+        ,nextChar,f) where
 import Data.List ()
 import System.IO ()
 -- import qualified Data.Map as Map
@@ -140,30 +139,47 @@ mean xs = total / len where
     len = (realToFrac . length) xs
 
 -- Monad --
-g :: [String]
-g = do
-    x <- ['a','b','c']
-    y <- ['a','b','c']
-    pure ([x] ++ [y])
+-- g :: [String]
+-- g = do
+--     x <- ['a','b','c']
+--     y <- ['a','b','c']
+--     pure ([x] ++ [y])
 
-f :: (Eq b, Fractional b) => b -> Maybe b
-f x = do
-    y <- if x /= 0 then pure (100/x)
-                   else Nothing
-    pure (y * 10)
-
-
--- newtype Reader r a = Reader { runReader :: r -> a}
--- instance Monad Reader where
---     Reader f >>= Reader g = Reader (\r -> g (f r) r)
+-- f :: (Eq b, Fractional b) => b -> Maybe b
+-- f x = do
+--     y <- if x /= 0 then pure (100/x)
+--                    else Nothing
+--     pure (y * 10)
 
 
--- f :: Reader Double Double
--- f = do
---     x <- Reader (+1)
---     y <- Reader (x*)
---     z <- Reader (y-)
---     pure z
+newtype Reader f b = Reader { runReader :: f  -> b}
+
+-- r :: Reader Integer Integer
+-- r = Reader (+1)
+
+instance Functor (Reader r) where
+    fmap f m = Reader $ \ r  -> f (runReader m r)
+instance Applicative (Reader r) where
+    pure x = Reader $ \ _ -> x
+    (<*>) f p = Reader $ \ r -> (runReader f r) $ (runReader p r)
+
+instance Monad (Reader r) where
+    return = pure
+    m >>= k = Reader $ \ r -> runReader (k (runReader m r)) r
+
+nextChar :: Char -> Char
+nextChar = toEnum . (+1) . fromEnum
+
+
+-- instance Monad (Reader r) where
+--     Reader f >>= Reader g = Reader $ (\r -> g (runReader f) r)
+
+f :: Reader Integer Integer
+f = do
+    x <- Reader (+1)
+    y <- Reader (x*)
+    z <- Reader (y-)
+    pure z
 
 -- class Apllicative m => Monad m where
 --     return :: a -> m a
